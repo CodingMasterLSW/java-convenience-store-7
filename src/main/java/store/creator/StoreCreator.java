@@ -7,8 +7,11 @@ import store.domain.Product;
 import store.domain.Products;
 import store.domain.Promotion;
 import store.domain.Promotions;
+import store.domain.PurchaseProduct;
+import store.domain.PurchaseProducts;
 import store.domain.Stock;
 import store.utils.FileParser;
+import store.utils.InputParser;
 
 public class StoreCreator {
 
@@ -46,6 +49,24 @@ public class StoreCreator {
             products.addProduct(product);
         }
         return products;
+    }
+
+    public PurchaseProducts createPurchaseProducts(String userInput) {
+        List<String> splitPurchaseProducts = InputParser.parseByDelimiter(userInput);
+        PurchaseProducts purchaseProducts = PurchaseProducts.create();
+
+        for (String splitPurchaseProduct : splitPurchaseProducts) {
+            List<String> tmpProduct = InputParser.parseAndSubUserInput(splitPurchaseProduct);
+            PurchaseProduct purchaseProduct = createPurchaseProduct(tmpProduct);
+            purchaseProducts.addPurchaseProduct(purchaseProduct);
+        }
+        return purchaseProducts;
+    }
+
+    private PurchaseProduct createPurchaseProduct(List<String> tmpProduct) {
+        String name = tmpProduct.get(0);
+        int quantity = Integer.parseInt(tmpProduct.get(1));
+        return PurchaseProduct.of(name, quantity);
     }
 
     private Product createProduct(Promotions promotions, List<String> productInfo) {

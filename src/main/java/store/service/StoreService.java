@@ -4,6 +4,7 @@ package store.service;
 import store.creator.StoreCreator;
 import store.domain.Products;
 import store.domain.Promotions;
+import store.domain.PurchaseProducts;
 
 public class StoreService {
 
@@ -19,6 +20,10 @@ public class StoreService {
 
     public Products createProducts(Promotions promotions) {
         return storeCreator.createProducts(promotions);
+    }
+
+    public PurchaseProducts createPurchaseProducts(String userInput) {
+        return storeCreator.createPurchaseProducts(userInput);
     }
 
 }

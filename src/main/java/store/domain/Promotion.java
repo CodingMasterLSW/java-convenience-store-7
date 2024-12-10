@@ -42,4 +42,8 @@ public class Promotion {
     public LocalDate getEndDate() {
         return endDate;
     }
+
+    public boolean hasName(String name) {
+        return this.name.equals(name);
+    }
 }

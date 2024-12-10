@@ -21,7 +21,7 @@ public class Promotions {
 
     public Promotion findPromotionByName(String name) {
         return promotions.stream()
-                .filter(promotion -> promotion.getName().equals(name))
+                .filter(promotion -> promotion.hasName(name))
                 .findFirst()
                 .orElse(null);
     }
