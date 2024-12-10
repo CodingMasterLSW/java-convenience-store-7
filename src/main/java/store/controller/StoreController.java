@@ -26,17 +26,22 @@ public class StoreController {
     public void start() {
         Promotions promotions = storeService.createPromotions();
         Products products = storeService.createProducts(promotions);
-        outputView.printHelloMessage();
-        outputView.showCurrentProduct(products);
 
-
-        retryOnInvalidInput(() -> {
-            String userInput = inputView.purchaseInput();
-            PurchaseProducts purchaseProducts = storeService.createPurchaseProducts(userInput);
-            PurchaseResults purchaseResults = storeService.buy(products, purchaseProducts);
-            outputView.printReceipt(purchaseResults);
-            return null;
-        });
+        while (true) {
+            outputView.printHelloMessage();
+            outputView.showCurrentProduct(products);
+            retryOnInvalidInput(() -> {
+                String userInput = inputView.purchaseInput();
+                PurchaseProducts purchaseProducts = storeService.createPurchaseProducts(userInput);
+                PurchaseResults purchaseResults = storeService.buy(products, purchaseProducts);
+                outputView.printReceipt(purchaseResults);
+                return null;
+            });
+            String userInput = inputView.continuePurchase();
+            if (userInput.equals("N")){
+                break;
+            }
+        }
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> input) {

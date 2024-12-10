@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 public class InputView {
 
     private static final String PURCHASE_PRODUCT_MESSAGE = "구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])";
+    private static final String CONTINUE_PURCHASE_MESSAGE = "감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)";
     private static final Pattern NUMBER = Pattern.compile("\\d+");
 
     private InputView() {
@@ -26,6 +27,11 @@ public class InputView {
 
     public String purchaseInput() {
         printMessage(PURCHASE_PRODUCT_MESSAGE);
+        return userInput();
+    }
+
+    public String continuePurchase() {
+        printMessage(CONTINUE_PURCHASE_MESSAGE);
         return userInput();
     }
 
