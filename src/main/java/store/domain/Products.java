@@ -1,6 +1,7 @@
 package store.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Products {
@@ -17,5 +18,9 @@ public class Products {
 
     public void addProduct(Product product) {
         products.add(product);
+    }
+
+    public List<Product> getProducts() {
+        return Collections.unmodifiableList(products);
     }
 }

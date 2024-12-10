@@ -7,13 +7,14 @@ import store.domain.Product;
 import store.domain.Products;
 import store.domain.Promotion;
 import store.domain.Promotions;
+import store.domain.Stock;
 import store.utils.FileParser;
 
 public class StoreCreator {
 
     private static final String PROMOTION_FILE_DIRECTORY = "src/main/resources/promotions.md";
     private static final String PRODUCT_FILE_DIRECTORY = "src/main/resources/products.md";
-    private static final String DATE_TIME_FORMAT = "yyyy-mm-dd";
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd";
 
     private StoreCreator() {
     }
@@ -51,8 +52,11 @@ public class StoreCreator {
         String name = productInfo.get(0);
         int price = Integer.parseInt(productInfo.get(1));
         int quantity = Integer.parseInt(productInfo.get(2));
+        Stock stock = Stock.create();
         Promotion promotion = promotions.findPromotionByName(productInfo.get(3));
-        return Product.of(name, price, quantity, promotion);
+        Product product = Product.of(name, price, stock, promotion);
+        product.addStock(quantity);
+        return product;
     }
 
     private Promotion createPromotion(List<String> promotionInfo, DateTimeFormatter formatter) {
