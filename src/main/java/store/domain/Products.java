@@ -20,6 +20,13 @@ public class Products {
         products.add(product);
     }
 
+    public Product findProductByName(String name) {
+        return products.stream()
+                .filter(product -> product.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
     public List<Product> getProducts() {
         return Collections.unmodifiableList(products);
     }

@@ -22,11 +22,26 @@ public class Stock {
         this.promotionStock += quantity;
     }
 
+    public void decreasePromotionStock(int quantity) {
+        this.promotionStock -= quantity;
+    }
+
+    public void decreaseNormalStock(int quantity) {
+        this.normalStock -= quantity;
+    }
+
     public int getPromotionStock() {
         return promotionStock;
     }
 
     public int getNormalStock() {
         return normalStock;
+    }
+
+    public boolean isEnoughStock(int quantity) {
+        if (promotionStock+normalStock >= quantity) {
+            return true;
+        }
+        return false;
     }
 }

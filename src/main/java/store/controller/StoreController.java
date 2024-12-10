@@ -1,9 +1,12 @@
 package store.controller;
 
+import java.util.function.Supplier;
 import store.domain.Products;
 import store.domain.Promotions;
 import store.domain.PurchaseProduct;
 import store.domain.PurchaseProducts;
+import store.domain.PurchaseResult;
+import store.domain.PurchaseResults;
 import store.service.StoreService;
 import store.view.InputView;
 import store.view.OutputView;
@@ -25,11 +28,28 @@ public class StoreController {
         Products products = storeService.createProducts(promotions);
         outputView.printHelloMessage();
         outputView.showCurrentProduct(products);
-        String userInput = inputView.purchaseInput();
-        PurchaseProducts purchaseProducts = storeService.createPurchaseProducts(userInput);
 
-        for (PurchaseProduct purchaseProduct : purchaseProducts.getPurchaseProducts()) {
-            System.out.println(purchaseProduct.getName() +" "+ purchaseProduct.getQuantity());
+
+        retryOnInvalidInput(() -> {
+            String userInput = inputView.purchaseInput();
+            PurchaseProducts purchaseProducts = storeService.createPurchaseProducts(userInput);
+            PurchaseResults purchaseResults = storeService.buy(products, purchaseProducts);
+            for (PurchaseResult purchaseResult : purchaseResults.getPurchaseResults()) {
+                System.out.println(purchaseResult.getProductName() + " " + purchaseResult.getQuantity() +" " + purchaseResult.getTotalPrice());
+            }
+            return null;
+        });
+
+
+    }
+
+    private <T> T retryOnInvalidInput(Supplier<T> input) {
+        while (true) {
+            try {
+                return input.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 package store.domain;
 
+import static store.exception.ErrorMessage.OVER_STOCK_PURCHASE;
+
 public class Product {
 
     private final String name;
@@ -24,6 +26,20 @@ public class Product {
             return;
         }
         stock.addPromotionStock(quantity);
+    }
+
+    public void validatePurchase(int quantity) {
+        if (!stock.isEnoughStock(quantity)) {
+            throw new IllegalArgumentException(OVER_STOCK_PURCHASE.getMessage());
+        }
+    }
+
+    public void decreaseStock(int quantity) {
+        if (promotion == null) {
+            stock.decreaseNormalStock(quantity);
+            return;
+        }
+        stock.decreasePromotionStock(quantity);
     }
 
     public String getName() {
