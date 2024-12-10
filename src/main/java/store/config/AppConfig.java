@@ -1,6 +1,7 @@
 package store.config;
 
 import store.controller.StoreController;
+import store.creator.StoreCreator;
 import store.service.StoreService;
 import store.view.InputView;
 import store.view.OutputView;
@@ -15,7 +16,7 @@ public class AppConfig {
     }
 
     public static StoreService createService() {
-        return new StoreService();
+        return new StoreService(StoreCreator.create());
     }
 
 }

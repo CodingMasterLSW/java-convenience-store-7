@@ -18,4 +18,11 @@ public class Promotions {
     public void addPromotion(Promotion promotion) {
         promotions.add(promotion);
     }
+
+    public Promotion findPromotionByName(String name) {
+        return promotions.stream()
+                .filter(promotion -> promotion.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
 }
