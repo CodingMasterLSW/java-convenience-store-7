@@ -34,13 +34,9 @@ public class StoreController {
             String userInput = inputView.purchaseInput();
             PurchaseProducts purchaseProducts = storeService.createPurchaseProducts(userInput);
             PurchaseResults purchaseResults = storeService.buy(products, purchaseProducts);
-            for (PurchaseResult purchaseResult : purchaseResults.getPurchaseResults()) {
-                System.out.println(purchaseResult.getProductName() + " " + purchaseResult.getQuantity() +" " + purchaseResult.getTotalPrice());
-            }
+            outputView.printReceipt(purchaseResults);
             return null;
         });
-
-
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> input) {
